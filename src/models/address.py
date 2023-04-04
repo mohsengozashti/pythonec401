@@ -1,14 +1,14 @@
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Float, Text, Integer, String, DateTime, Numeric, SmallInteger,ForeignKey
-from sqlalchemy import SQLAlchemy
-Base = declarative_base()
-class address(Base):
+from database import getDB
+
+db = getDB()
+
+class Address(db.Model):
     __tablename__ = 'addresses'
-    id = Column(Integer, primary_key=True)
-    address = Column(Text(1000), nullable = False)
-    title = Column(String(80),nullable = False)
-    postal_code = Column(String(80),nullable = False)
-    phone = Column(String(80), unique=True, nullable=True)
-    contact_id = Column("user_id", Integer, ForeignKey("contacts.id"), nullable=False),
+    id = db.Column(db.Integer, primary_key=True)
+    address = db.Column(db.Text(1000), nullable = False)
+    title = db.Column(db.String(80),nullable = False)
+    postal_code = db.Column(db.String(80),nullable = False)
+    phone = db.Column(db.String(80), unique=True, nullable=True)
+    contact_id = db.Column(db.Integer, db.ForeignKey('contacts.id', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True)
     def __repr__(self):
         return "<Address: {}>".format(self.address)

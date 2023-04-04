@@ -16,3 +16,6 @@ def create_db(app):
 
 def init_db(app):
     db.init_app(app)
+
+def getDB():
+    return db
