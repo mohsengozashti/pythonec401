@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content%}
+<center class="mt-5">
+    <h1 class="text-secondary mb-4">List of Contacts</h1>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>National ID</th>
+            <th>Email</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>GPA</th>
+            <th>Created At</th>
+            <th>Birthday</th>
+            <th>Description</th>
+            <th>Degree</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for contact in contacts %}
+            <tr>
+              <td>{{ contact.id }}</td>
+              <td>{{ contact.first_name }}</td>
+              <td>{{ contact.last_name }}</td>
+              <td>{{ contact.national_id }}</td>
+              <td>{{ contact.email }}</td>
+              <td>{{ contact.age }}</td>
+              <td>{% if contact.gender %}Male{% else %}Female{% endif %}</td>
+              <td>{{ contact.gpa }}</td>
+              <td>{{ contact.created_at }}</td>
+              <td>{{ contact.birthday }}</td>
+              <td>{{ contact.description }}</td>
+              <td>{{ contact.degree.name.title() }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+     
+      <div class="d-flex justify-content-center">
+        <nav>
+            <ul class="pagination">
+              {% if contacts.has_prev %}
+              <li class="page-item"><a class="page-link" href="?page={{ contacts.prev_num }}">&laquo;</a></li>
+              {% else %}
+              <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+              {% endif %}
+              {% for num in contacts.iter_pages(left_edge=1, left_current=2, right_current=3, right_edge=1) %}
+              {% if num %}
+              {% if contacts.page == num %}
+              <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+              {% else %}
+              <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+              {% endif %}
+              {% else %}
+              <li class="page-item disabled"><span class="page-link">...</span></li>
+              {% endif %}
+              {% endfor %}
+              {% if contacts.has_next %}
+              <li class="page-item"><a class="page-link" href="?page={{ contacts.next_num }}">&raquo;</a></li>
+              {% else %}
+              <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+              {% endif %}
+            </ul>
+          </nav>
+      </div>
+
+</center>
+{% endblock %}
