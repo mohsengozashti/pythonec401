@@ -1,7 +1,16 @@
 {% extends 'base.html' %}
 {% block content%}
-<center class="mt-5">
-    <h1 class="text-secondary mb-4">List of Contacts</h1>
+
+{% for message in get_flashed_messages()%}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  Contact  <strong>Deleted</strong> Successfully!
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{%endfor%}
+
+    <h1 class="text-secondary mt-5 mb-4 text-center">List of Contacts</h1>
     <table class="table table-striped">
         <thead class="thead-dark">
           <tr>
@@ -17,6 +26,7 @@
             <th>Birthday</th>
             <th>Description</th>
             <th>Degree</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -34,6 +44,7 @@
               <td>{{ contact.birthday }}</td>
               <td>{{ contact.description }}</td>
               <td>{{ contact.degree.name.title() }}</td>
+              <td><a class="btn btn-primary" href="{{url_for('show_contact_addresses',contact_id = contact.id)}}">Show addresses</a></td>
             </tr>
           {% endfor %}
         </tbody>
@@ -66,6 +77,4 @@
             </ul>
           </nav>
       </div>
-
-</center>
 {% endblock %}

@@ -18,6 +18,20 @@ db = getDB()
 def home():
     return render_template("home.html")
 
+@app.route("/contacts/<contact_id>", methods=["DELETE"])
+def delete_contact(contact_id):
+    contact = Contact.query.filter_by(id=contact_id).first()
+    if contact:
+        db.session.delete(contact)
+        db.session.commit()
+        flash('Contact Deleted Successfully!')
+    return redirect(url_for('contacts'))
+
+@app.route("/show_contact_addresses/<contact_id>", methods=["GET"])
+def show_contact_addresses(contact_id):
+    addresses = Contact.query.filter_by(id=contact_id).first().addresses
+    return render_template("show_contact_addresses.html",addresses = addresses)
+
 @app.route('/add_contact', methods=['GET', 'POST'])
 def add_contact():
     if request.form:
